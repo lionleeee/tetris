@@ -1,7 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-* {
-  font-family: 'Press Start 2P', cursive;
-}
 
 .grid {
   display: grid;
@@ -44,7 +41,7 @@
     font-size: 16px;
     padding: 15px 30px;
     cursor: pointer;
-    width: 140px; 
+    width: 140px;
     border: 1px solid black;
   }
 }

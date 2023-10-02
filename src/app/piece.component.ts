@@ -1,4 +1,4 @@
-import { COLORS, SHAPES, COLORSLIGHTER, COLORSDARKER } from './constants';
+import { COLORS, SHAPES } from "./constants";
 
 export interface IPiece {
   x: number;
@@ -23,8 +23,8 @@ export class Piece implements IPiece {
     const typeId = this.randomizeTetrominoType(COLORS.length - 1);
     this.shape = SHAPES[typeId];
     this.color = COLORS[typeId];
-    this.colorLighter = COLORSLIGHTER[typeId];
-    this.colorDarker = COLORSDARKER[typeId];
+    this.colorLighter = COLORS[typeId];
+    this.colorDarker = COLORS[typeId];
     this.x = typeId === 4 ? 4 : 3;
     this.y = 0;
   }
@@ -33,36 +33,40 @@ export class Piece implements IPiece {
     //Darker Color
     ctx.fillStyle = this.colorDarker;
     // Vertical
-    ctx.fillRect(x + .9, y, .1, 1);
+    ctx.fillRect(x + 0.9, y, 0.1, 1);
     // Horizontal
-    ctx.fillRect(x, y + .9, 1, .1);
+    ctx.fillRect(x, y + 0.9, 1, 0.1);
 
-    //Darker Color - Inner 
+    //Darker Color - Inner
     // Vertical
-    ctx.fillRect(x + .65, y + .3, .05, .3);
+    ctx.fillRect(x + 0.65, y + 0.3, 0.05, 0.3);
     // Horizontal
-    ctx.fillRect(x + .3, y + .6, .4, .05);
+    ctx.fillRect(x + 0.3, y + 0.6, 0.4, 0.05);
 
     // Lighter Color - Outer
     ctx.fillStyle = this.colorLighter;
 
-    // Lighter Color - Inner 
+    // Lighter Color - Inner
     // Vertical
-    ctx.fillRect(x + .3, y + .3, .05, .3);
+    ctx.fillRect(x + 0.3, y + 0.3, 0.05, 0.3);
     // Horizontal
-    ctx.fillRect(x + .3, y + .3, .4, .05);
+    ctx.fillRect(x + 0.3, y + 0.3, 0.4, 0.05);
 
     // Lighter Color - Outer
     // Vertical
-    ctx.fillRect(x, y, .05, 1);
-    ctx.fillRect(x, y, .1, .95);
+    ctx.fillRect(x, y, 0.05, 1);
+    ctx.fillRect(x, y, 0.1, 0.95);
     // Horizontal
-    ctx.fillRect(x, y, 1 , .05);
-    ctx.fillRect(x, y, .95, .1);
+    ctx.fillRect(x, y, 1, 0.05);
+    ctx.fillRect(x, y, 0.95, 0.1);
   }
 
-  private addNextShadow(ctx: CanvasRenderingContext2D, x: number, y: number): void {
-   ctx.fillStyle = 'black';
+  private addNextShadow(
+    ctx: CanvasRenderingContext2D,
+    x: number,
+    y: number
+  ): void {
+    ctx.fillStyle = "black";
     ctx.fillRect(x, y, 1.025, 1.025);
   }
 
@@ -95,9 +99,9 @@ export class Piece implements IPiece {
       row.forEach((value, x) => {
         if (value > 0) {
           ctxNext.fillStyle = this.color;
-          const currentX = x + .025;
-          const currentY = y + .025;
-          ctxNext.fillRect(currentX, currentY, 1-.025, 1 -.025);
+          const currentX = x + 0.025;
+          const currentY = y + 0.025;
+          ctxNext.fillRect(currentX, currentY, 1 - 0.025, 1 - 0.025);
           this.add3D(ctxNext, currentX, currentY);
         }
       });

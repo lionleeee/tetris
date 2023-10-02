@@ -1,11 +1,9 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-root',
-  template: `
-    <game-board></game-board>
-  `,
+  selector: "app-root",
+  template: ` <game-board></game-board> `,
 })
 export class AppComponent {
-  title = 'ng-tetris';
+  title = "ng-tetris";
 }

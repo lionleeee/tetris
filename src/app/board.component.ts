@@ -3,32 +3,30 @@ import {
   ViewChild,
   ElementRef,
   OnInit,
-  HostListener
-} from '@angular/core';
+  HostListener,
+} from "@angular/core";
 import {
   COLS,
   BLOCK_SIZE,
   ROWS,
   COLORS,
-  COLORSLIGHTER,
   LINES_PER_LEVEL,
   LEVEL,
   POINTS,
   KEY,
-  COLORSDARKER
-} from './constants';
-import { Piece, IPiece } from './piece.component';
-import { GameService } from './game.service';
-import { Zoundfx } from 'ng-zzfx';
+} from "./constants";
+import { Piece, IPiece } from "./piece.component";
+import { GameService } from "./game.service";
+import { Zoundfx } from "ng-zzfx";
 
 @Component({
-  selector: 'game-board',
-  templateUrl: 'board.component.html'
+  selector: "game-board",
+  templateUrl: "board.component.html",
 })
 export class BoardComponent implements OnInit {
-  @ViewChild('board', { static: true })
+  @ViewChild("board", { static: true })
   canvas: ElementRef<HTMLCanvasElement>;
-  @ViewChild('next', { static: true })
+  @ViewChild("next", { static: true })
   canvasNext: ElementRef<HTMLCanvasElement>;
   ctx: CanvasRenderingContext2D;
   ctxNext: CanvasRenderingContext2D;
@@ -48,11 +46,11 @@ export class BoardComponent implements OnInit {
     [KEY.RIGHT]: (p: IPiece): IPiece => ({ ...p, x: p.x + 1 }),
     [KEY.DOWN]: (p: IPiece): IPiece => ({ ...p, y: p.y + 1 }),
     [KEY.SPACE]: (p: IPiece): IPiece => ({ ...p, y: p.y + 1 }),
-    [KEY.UP]: (p: IPiece): IPiece => this.service.rotate(p)
+    [KEY.UP]: (p: IPiece): IPiece => this.service.rotate(p),
   };
   playSoundFn: Function;
 
-  @HostListener('window:keydown', ['$event'])
+  @HostListener("window:keydown", ["$event"])
   keyEvent(event: KeyboardEvent) {
     if (event.keyCode === KEY.ESC) {
       this.gameOver();
@@ -91,7 +89,7 @@ export class BoardComponent implements OnInit {
   }
 
   initBoard() {
-    this.ctx = this.canvas.nativeElement.getContext('2d');
+    this.ctx = this.canvas.nativeElement.getContext("2d");
 
     // Calculate size of canvas from constants.
     this.ctx.canvas.width = COLS * BLOCK_SIZE;
@@ -102,7 +100,7 @@ export class BoardComponent implements OnInit {
   }
 
   initNext() {
-    this.ctxNext = this.canvasNext.nativeElement.getContext('2d');
+    this.ctxNext = this.canvasNext.nativeElement.getContext("2d");
 
     // Calculate size of canvas from constants.
     // The + 2 is to allow for space to add the drop shadow to
@@ -169,7 +167,23 @@ export class BoardComponent implements OnInit {
         // Game over
         return false;
       }
-      this.playSoundFn([ , , 224,.02,.02,.08,1,1.7,-13.9 , , , , , ,6.7]);
+      this.playSoundFn([
+        ,
+        ,
+        224,
+        0.02,
+        0.02,
+        0.08,
+        1,
+        1.7,
+        -13.9,
+        ,
+        ,
+        ,
+        ,
+        ,
+        6.7,
+      ]);
       this.piece = this.next;
       this.next = new Piece(this.ctx);
       this.next.drawNext(this.ctxNext);
@@ -180,7 +194,7 @@ export class BoardComponent implements OnInit {
   clearLines() {
     let lines = 0;
     this.board.forEach((row, y) => {
-      if (row.every(value => value !== 0)) {
+      if (row.every((value) => value !== 0)) {
         lines++;
         this.board.splice(y, 1);
         this.board.unshift(Array(COLS).fill(0));
@@ -209,45 +223,45 @@ export class BoardComponent implements OnInit {
 
   private add3D(x: number, y: number, color: number): void {
     //Darker Color
-    this.ctx.fillStyle = COLORSDARKER[color];
+    this.ctx.fillStyle = COLORS[color];
     // Vertical
-    this.ctx.fillRect(x + .9, y, .1, 1);
+    this.ctx.fillRect(x + 0.9, y, 0.1, 1);
     // Horizontal
-    this.ctx.fillRect(x, y + .9, 1, .1);
+    this.ctx.fillRect(x, y + 0.9, 1, 0.1);
 
-    //Darker Color - Inner 
+    //Darker Color - Inner
     // Vertical
-    this.ctx.fillRect(x + .65, y + .3, .05, .3);
+    this.ctx.fillRect(x + 0.65, y + 0.3, 0.05, 0.3);
     // Horizontal
-    this.ctx.fillRect(x + .3, y + .6, .4, .05);
-
-    // Lighter Color - Outer
-    this.ctx.fillStyle = COLORSLIGHTER[color];
-
-    // Lighter Color - Inner 
-    // Vertical
-    this.ctx.fillRect(x + .3, y + .3, .05, .3);
-    // Horizontal
-    this.ctx.fillRect(x + .3, y + .3, .4, .05);
+    this.ctx.fillRect(x + 0.3, y + 0.6, 0.4, 0.05);
 
     // Lighter Color - Outer
+    this.ctx.fillStyle = COLORS[color];
+
+    // Lighter Color - Inner
     // Vertical
-    this.ctx.fillRect(x, y, .05, 1);
-    this.ctx.fillRect(x, y, .1, .95);
+    this.ctx.fillRect(x + 0.3, y + 0.3, 0.05, 0.3);
     // Horizontal
-    this.ctx.fillRect(x, y, 1 , .05);
-    this.ctx.fillRect(x, y, .95, .1);
+    this.ctx.fillRect(x + 0.3, y + 0.3, 0.4, 0.05);
+
+    // Lighter Color - Outer
+    // Vertical
+    this.ctx.fillRect(x, y, 0.05, 1);
+    this.ctx.fillRect(x, y, 0.1, 0.95);
+    // Horizontal
+    this.ctx.fillRect(x, y, 1, 0.05);
+    this.ctx.fillRect(x, y, 0.95, 0.1);
   }
-  
+
   private addOutlines() {
-    for(let index = 1; index < COLS; index++) {
-      this.ctx.fillStyle = 'black';
-      this.ctx.fillRect(index, 0, .025, this.ctx.canvas.height);
+    for (let index = 1; index < COLS; index++) {
+      this.ctx.fillStyle = "black";
+      this.ctx.fillRect(index, 0, 0.025, this.ctx.canvas.height);
     }
 
-    for(let index = 1; index < ROWS; index++) {
-      this.ctx.fillStyle = 'black';
-      this.ctx.fillRect(0, index, this.ctx.canvas.width, .025);
+    for (let index = 1; index < ROWS; index++) {
+      this.ctx.fillStyle = "black";
+      this.ctx.fillRect(0, index, this.ctx.canvas.width, 0.025);
     }
   }
 
@@ -269,9 +283,9 @@ export class BoardComponent implements OnInit {
       if (this.paused) {
         this.animate();
       } else {
-        this.ctx.font = '1px Arial';
-        this.ctx.fillStyle = 'black';
-        this.ctx.fillText('GAME PAUSED', 1.4, 4);
+        this.ctx.font = "1px Arial";
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText("GAME PAUSED", 1.4, 4);
         cancelAnimationFrame(this.requestId);
       }
 
@@ -282,12 +296,13 @@ export class BoardComponent implements OnInit {
   gameOver() {
     this.gameStarted = false;
     cancelAnimationFrame(this.requestId);
-    this.highScore = this.points > this.highScore ? this.points : this.highScore;
-    this.ctx.fillStyle = 'black';
+    this.highScore =
+      this.points > this.highScore ? this.points : this.highScore;
+    this.ctx.fillStyle = "black";
     this.ctx.fillRect(1, 3, 8, 1.2);
-    this.ctx.font = '1px Arial';
-    this.ctx.fillStyle = 'red';
-    this.ctx.fillText('GAME OVER', 1.8, 4);
+    this.ctx.font = "1px Arial";
+    this.ctx.fillStyle = "red";
+    this.ctx.fillText("GAME OVER", 1.8, 4);
   }
 
   getEmptyBoard(): number[][] {

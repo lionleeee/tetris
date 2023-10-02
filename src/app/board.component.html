@@ -1,38 +1,41 @@
 <div class="grid">
-    <canvas #board class="game-board"></canvas>
-    <div class="right-column">
-        <div>
-            <h1>TETRIS</h1>
-            <p>Score: {{ points }}</p>
-            <p>Lines: {{ lines }}</p>
-            <p>Level: {{ level }}</p>
-            <p>High Score:</p>
-            <p>{{ highScore }}</p>
-            <p>Next Block:</p>
-            <canvas #next class="next"></canvas>
-        </div>
-        <div class="button-container">
-            <button
-                (click)="play()"
-                class="play-button button"
-                *ngIf="!gameStarted"
-            >
-                Play
-            </button>
-            <button
-                (click)="gameOver()"
-                class="reset-button button"
-                *ngIf="gameStarted"
-            >
-                Reset
-            </button>
-            <button
-                (click)="pause()"
-                class="pause-button button"
-                [class.button-disabled]="!gameStarted"
-            >
-                Pause
-            </button>
-        </div>
+  <canvas #board class="game-board"></canvas>
+  <div class="right-column">
+    <div>
+      <h1>TETRIS</h1>
+      <p>점수: {{ lines * 10 }}</p>
+      <p>라인: {{ lines }}</p>
+      <p>레벨: {{ level }}</p>
+
+      <p>다음 블럭:</p>
+      <canvas #next class="next"></canvas>
     </div>
+    <div>
+      <h2>키 설명</h2>
+      ⬅️ 왼쪽으로 이동<br />
+      ➡️ 오른쪽으로 이동<br />
+      ⬆️ 블럭 돌리기<br />
+      space 블럭 내리기 <br />
+      esc 종료
+    </div>
+    <div class="button-container">
+      <button (click)="play()" class="play-button button" *ngIf="!gameStarted">
+        시작
+      </button>
+      <button
+        (click)="gameOver()"
+        class="reset-button button"
+        *ngIf="gameStarted"
+      >
+        리셋
+      </button>
+      <button
+        (click)="pause()"
+        class="pause-button button"
+        [class.button-disabled]="!gameStarted"
+      >
+        정지
+      </button>
+    </div>
+  </div>
 </div>
