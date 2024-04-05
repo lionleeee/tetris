@@ -85,6 +85,7 @@ export class Piece implements IPiece {
   }
 
   drawNext(ctxNext: CanvasRenderingContext2D) {
+    console.log(ctxNext);
     ctxNext.clearRect(0, 0, ctxNext.canvas.width, ctxNext.canvas.height);
     this.shape.forEach((row, y) => {
       row.forEach((value, x) => {
